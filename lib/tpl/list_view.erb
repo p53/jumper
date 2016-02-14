@@ -1,5 +1,43 @@
-  ID         |IP                     |Host                   |Desc
---------------------------------------------------------------------
+<%- 
+  header_row = ''
+  header_sep = ''
+  total_length = 0
+-%>
+<%- for field, label_data in cfg['view']['labels']  -%>
+  <%-
+    field_length = label_data['name'].to_s.length
+    
+    if( field_length > label_data['length'] )
+      cut_str = label_data['name'][0, label_data['length']]
+      cut_str[-3,3] = '...'
+      header_row += cut_str
+    elsif( field_length < label_data['length'] )
+      fill_length = label_data['length'] - field_length
+      header_row += label_data['name'].to_s + ' ' * fill_length
+    end
+    
+    header_row += '|'
+    total_length += label_data['length'] + 1
+    header_sep = '-' * total_length 
+  -%>
+<%- end -%>
+  <%= header_row %>
+  <%= header_sep %>
 <%- for row in pass -%>
-  <%= row['id_host'] %>          |<%= row['ip_address'] %>          |<%= row['host_name'] %>                |<%= row['desc'] %>
-<% end %>
+  <%- data_row = '' -%>
+  <%- for field, label_data in cfg['view']['labels']  -%>
+    <%-
+      field_length = row[field].to_s.length
+      if( field_length > label_data['length'] )
+        cut_str = row[field][0, label_data['length']]
+        cut_str[-3,3] = '...'
+        data_row += cut_str
+      elsif( field_length < label_data['length'] )
+        fill_length = label_data['length'] - field_length
+        data_row += row[field].to_s + ' ' * fill_length
+      end
+        data_row += '|'
+    -%>
+  <%- end -%>
+  <%= data_row %>
+<%- end -%>

@@ -1,0 +1,7 @@
+---------------------------------------  
+<%- for row in pass -%>
+<%- for field, label_data in cfg['view']['labels'] -%>
+  <%= label_data['name'] %>: <%= row[field] %> 
+<%- end -%>
+---------------------------------------  
+<%- end -%>
