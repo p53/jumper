@@ -1,3 +1,6 @@
 /nbproject/
 /data/
 /config/
+*.png
+*.css
+*.html
